@@ -48,8 +48,7 @@ function Get-Commonest {
             $keep = ($ones -ge $half) ? '1' : '0'
         }
         # remove incorrect objects
-        $count = $data.Count
-        for ($j = $Count - 1; $j -ge 0; $j--) {
+        for ($j = $data.count - 1; $j -ge 0; $j--) {
             if ($data[$j][$i] -ne $keep -And $data.count -gt 1) {
                 $null = $data.Remove($data[$j])
             }
