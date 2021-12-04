@@ -34,7 +34,7 @@ for ($i = 0; $i -lt $nums.Count / 25; $i++) {
 # Mark the called number and break on winner
 foreach ($call in $calls) {
     for ($i = 0; $i -lt $boards.Count; $i++) {
-        $num = $boards.Count - ($boardsolved.getEnumerator() | Where-Object {$_.Value}).Count
+        $num = $boards.Count - ($boardsolved.getEnumerator() | Where-Object { $_.Value }).Count
         if (-not $boardsolved[$i] -and $num -gt 0) {
             for ($j = 0; $j -lt $boards[$i].Count; $j++) {
                 if ($boards[$i][$j].Contains($call)) {
@@ -51,7 +51,7 @@ foreach ($call in $calls) {
 }
 
 # Find the magic number
-$sum=0
+$sum = 0
 for ($m = 0; $m -lt 5; $m++) {
     $boards[$lastboard][$m].GetEnumerator() | Where-Object { $_.Value -eq 0 } | Foreach-Object { $sum = $sum + $_.Key }
 }

@@ -45,6 +45,6 @@ for ($i = 0; $i -lt $nums.Count / 25; $i++) {
 
 # Find the magic number
 for ($m = 0; $m -lt 5; $m++) {
-    $boards[$i][$m].GetEnumerator() | Where-Object {$_.Value -eq 0} | Foreach-Object { $sum = $sum + $_.Key }
+    $boards[$i][$m].GetEnumerator() | Where-Object { $_.Value -eq 0 } | Foreach-Object { $sum = $sum + $_.Key }
 }
-"The answer to part 1 is: " + $sum * $call
+'The answer to part 1 is: ' + $sum * $call
