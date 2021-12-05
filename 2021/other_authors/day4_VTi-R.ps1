@@ -1,9 +1,9 @@
 # credits to https://www.reddit.com/user/VTi-R/
-# through https://reddit.com/r/PowerShell
+# through https://www.reddit.com/r/PowerShell/comments/r8jod0/advent_of_code_2021_day_4_giant_squid/
 #
 # slightly modified to load from the same data, and to calculate both parts in one function
 
-$filepath = 'inputs/day4.txt'
+$filepath = '../inputs/day4.txt'
 $CallData = Get-Content $filepath | Select-Object -First 1
 $Calls = $CallData -Split ','
 $Boardstext = Get-Content $filepath | Select-Object -Skip 2
