@@ -1,0 +1,17 @@
+329108 onderdelen missen
+Lightsaber: 89 Batterij, 13 Unobtanium
+HandheldComputer: 41 Batterij, 31 Printplaat, 67 Plastic
+ElectrischeRacebaan: 19 AutoChassis, 67 Printplaat, 29 Plastic, 61 Batterij, 19 Wiel
+QuadDrone: 53 Accu, 3 Plastic, 47 Printplaat
+PikachuPlushy: 47 Batterij
+Trampoline: 29 Schokdemper, 5 IJzer
+BatmobileReplica: 7 BatmobileChassis, 97 Schokdemper, 29 Unobtanium, 31 Wiel
+DanceDanceRevolutionMat: 83 Schokdemper, 47 Batterij
+Printplaat: 53 Hars, 67 Koper, 5 Chip, 59 Led
+Accu: 31 Batterij
+Schokdemper: 59 IJzer, 3 Staal
+Batterij: 19 Staal
+BatmobileChassis: 59 AutoChassis, 73 Staal
+AutoChassis: 61 IJzer
+Wiel: 29 Rubber, 47 IJzer
+Unobtanium: 53 IJzer, 53 Kryptonite
