@@ -9,6 +9,7 @@ $totalflashes, $step, $flashes = 0
 
 $visualise = $true
 if($visualise) {
+    Clear-Host
     Start-Sleep 2
 }
 
@@ -72,7 +73,7 @@ function Show-Field {
                 $host.UI.RawUI.CursorSize = 0
             }
             switch ($octopus["$w,$h"]) {
-                0 { 
+                0 {
                     Write-Host '0' -NoNewLine -BackgroundColor White
                 }
                 ({ $_ -ge 9 }) {
