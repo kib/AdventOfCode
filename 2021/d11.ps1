@@ -5,7 +5,7 @@
 
     $octopus = @{}
     $neighbours = @{}
-    $flashes,$step = 0
+    $totalflashes,$step,$flashes = 0
 
     for ($h = 0; $h -lt $height; $h++) {
         for ($w = 0; $w -lt $width; $w++) {
@@ -57,7 +57,6 @@
 
     function Show-Field {
         ""
-        "this is the field after step $step"
         for ($h = 0; $h -lt $height; $h++) {
             $line = for ($w = 0; $w -lt $width; $w++) {
                 $octopus["$w,$h"]
@@ -89,16 +88,18 @@
                 }
             }
         }
+        $script:totalflashes += $script:flashes
         #Show-Field
     }
 
     # part 1
     Step-Field 100
-    "After step $step there have been $flashes flashes"
+    "After step $step there have been $totalflashes flashes"
 
     # part 2
     do {
+        $flashes = 0
         Step-Field 1
-    } until ($octopus.Count -eq ($octopus.Values | Group-Object)[0].Count)
+    } until ($flashes -eq $octopus.count)
 
     "After step $step all octopi have flashed simultaneously"
