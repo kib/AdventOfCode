@@ -1,4 +1,4 @@
-[String[]]$octopi = Get-Content -Path './inputs/d11.txt'
+$octopi = @("2682551651","3223134263","5848471412","7438334862","8731321573","6415233574","5564726843","6683456445","8582346112","4617588236")
 
 $width = $octopi[0].Length
 $height = $octopi.Count;
@@ -20,7 +20,7 @@ if($visualise) {
 
 for ($h = 0; $h -lt $height; $h++) {
     for ($w = 0; $w -lt $width; $w++) {
-        $octopus["$w,$h"] = [convert]::ToInt32($octopi[$h][$w], 10)
+        $octopus["$w,$h"] = [Int32]::Parse($octopi[$h][$w])
     }
 }
 
@@ -134,5 +134,4 @@ do {
     Step-Field 1
 } until ($flashes -eq $octopus.count)
 
-$ans
 "During step $step all octopi flashed simultaneously"
