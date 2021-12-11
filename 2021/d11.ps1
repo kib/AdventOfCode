@@ -4,13 +4,13 @@
     $height = $octopi.Count;
 
     $octopus = @{}
+    $neighbours = @{}
     $flashes,$step = 0
 
     for ($h = 0; $h -lt $height; $h++) {
         for ($w = 0; $w -lt $width; $w++) {
             $key = "$w,$h"
             $octopus[$key] = [convert]::ToInt32($octopi[$h][$w], 10)
-            $flashedin[$key] = 0
         }
     }
 
@@ -18,14 +18,19 @@
         param (
             [String]$id
         )
+        if ($neighbours.ContainsKey($id)) {
+            return $neighbours[$id]
+        }
         [int]$x, [int]$y = $id -split ','
-        for ($i = -1; $i -lt 2; $i++) {
+        $nb = for ($i = -1; $i -lt 2; $i++) {
             for ($j = -1; $j -lt 2; $j++) {
                 if ($x + $i -ge 0 -and $y + $j -ge 0 -and $x + $i -lt $width -and $y + $j -lt $height -and -not ($i -eq 0 -and $j -eq 0)) {
                     "{0},{1}" -f $($x + $i), $($y + $j)
                 }
             }
         }
+        $neighbours[$id] = $nb
+        return $nb
     }
 
     function New-Flash {
