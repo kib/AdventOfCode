@@ -9,14 +9,11 @@ $totalflashes = 0
 $flashes = 0
 $step = 0
 
-$visualise = $true
-if($visualise) {
-    Clear-Host
-    "Visualisation starts in 3 seconds. "
-    "This will only work from a Powershell console, not from the VSCode integrated console."
-    Start-Sleep 3
-    Clear-Host
-}
+Clear-Host
+"Visualisation starts in 3 seconds. "
+"This will only work from a Powershell console, not from the VSCode integrated console."
+Start-Sleep 3
+Clear-Host
 
 for ($h = 0; $h -lt $height; $h++) {
     for ($w = 0; $w -lt $width; $w++) {
@@ -50,11 +47,9 @@ function New-Flash {
     $script:flashes ++
     $script:totalflashes ++
     $octopus[$id] = 0
-    if ($visualise) {
-        $origpos = $host.UI.RawUI.CursorPosition
-        Show-Field
-        $host.UI.RawUI.CursorPosition = $origpos
-    }
+    $origpos = $host.UI.RawUI.CursorPosition
+    Show-Field
+    $host.UI.RawUI.CursorPosition = $origpos
     get-neighbours $id | ForEach-Object {
         $octo = $_
         switch ($octopus[$_]) {
