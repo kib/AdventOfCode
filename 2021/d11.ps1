@@ -7,10 +7,14 @@ $octopus = @{}
 $neighbours = @{}
 $totalflashes, $step, $flashes = 0
 
+$visualise = $true
+if($visualise) {
+    Start-Sleep 2
+}
+
 for ($h = 0; $h -lt $height; $h++) {
     for ($w = 0; $w -lt $width; $w++) {
-        $key = "$w,$h"
-        $octopus[$key] = [convert]::ToInt32($octopi[$h][$w], 10)
+        $octopus["$w,$h"] = [convert]::ToInt32($octopi[$h][$w], 10)
     }
 }
 
@@ -25,7 +29,7 @@ function Get-Neighbours {
     $nb = for ($i = -1; $i -lt 2; $i++) {
         for ($j = -1; $j -lt 2; $j++) {
             if ($x + $i -ge 0 -and $y + $j -ge 0 -and $x + $i -lt $width -and $y + $j -lt $height -and -not ($i -eq 0 -and $j -eq 0)) {
-                '{0},{1}' -f $($x + $i), $($y + $j)
+                "$($x + $i),$($y + $j)"
             }
         }
     }
@@ -39,6 +43,11 @@ function New-Flash {
     )
     $script:flashes ++
     $octopus[$id] = 0
+    if ($visualise) {
+        $origpos = $host.UI.RawUI.CursorPosition
+        Show-Field
+        $host.UI.RawUI.CursorPosition = $origpos
+    }
     get-neighbours $id | ForEach-Object {
         $octo = $_
         switch ($octopus[$_]) {
@@ -58,11 +67,26 @@ function New-Flash {
 function Show-Field {
     ''
     for ($h = 0; $h -lt $height; $h++) {
-        $line = for ($w = 0; $w -lt $width; $w++) {
-            $octopus["$w,$h"]
+        for ($w = 0; $w -lt $width; $w++) {
+            if ($visualise) {
+                $host.UI.RawUI.CursorSize = 0
+            }
+            switch ($octopus["$w,$h"]) {
+                0 { 
+                    Write-Host '0' -NoNewLine -BackgroundColor White
+                }
+                ({ $_ -ge 9 }) {
+                    Write-Host '9' -NoNewline
+                }
+                Default {
+                    Write-Host -NoNewLine $_
+                }
+            }
         }
-        $line -join ''
+        Write-Host ''
     }
+    ""
+    Write-Host "Step: $step"
 }
 
 function Start-FieldIncrease {
@@ -89,12 +113,11 @@ function Step-Field {
         }
     }
     $script:totalflashes += $script:flashes
-    # Show-Field
 }
 
 # part 1
 Step-Field 100
-"After step $step there have been $totalflashes flashes"
+#"After step $step there have been $totalflashes flashes"
 
 # part 2
 do {
@@ -102,4 +125,4 @@ do {
     Step-Field 1
 } until ($flashes -eq $octopus.count)
 
-"After step $step all octopi have flashed simultaneously"
+#"After step $step all octopi have flashed simultaneously"
