@@ -5,13 +5,9 @@ $height = $octopi.Count;
 
 $octopus = @{}
 $neighbours = @{}
-$totalflashes, $step, $flashes = 0
-
-$visualise = $true
-if($visualise) {
-    Clear-Host
-    Start-Sleep 2
-}
+$totalflashes = 0
+$flashes = 0
+$step = 0
 
 for ($h = 0; $h -lt $height; $h++) {
     for ($w = 0; $w -lt $width; $w++) {
@@ -43,12 +39,8 @@ function New-Flash {
         [String]$id
     )
     $script:flashes ++
+    $script:totalflashes ++
     $octopus[$id] = 0
-    if ($visualise) {
-        $origpos = $host.UI.RawUI.CursorPosition
-        Show-Field
-        $host.UI.RawUI.CursorPosition = $origpos
-    }
     get-neighbours $id | ForEach-Object {
         $octo = $_
         switch ($octopus[$_]) {
@@ -65,33 +57,9 @@ function New-Flash {
     }
 }
 
-function Show-Field {
-    ''
-    for ($h = 0; $h -lt $height; $h++) {
-        for ($w = 0; $w -lt $width; $w++) {
-            if ($visualise) {
-                $host.UI.RawUI.CursorSize = 0
-            }
-            switch ($octopus["$w,$h"]) {
-                0 {
-                    Write-Host '0' -NoNewLine -BackgroundColor White
-                }
-                ({ $_ -ge 9 }) {
-                    Write-Host '9' -NoNewline
-                }
-                Default {
-                    Write-Host -NoNewLine $_
-                }
-            }
-        }
-        Write-Host ''
-    }
-    ""
-    Write-Host "Step: $step"
-}
-
 function Start-FieldIncrease {
     $script:step ++
+    $script:flashes = 0
     for ($h = 0; $h -lt $height; $h++) {
         for ($w = 0; $w -lt $width; $w++) {
             $octopus["$w,$h"] += 1
@@ -103,6 +71,7 @@ function Step-Field {
     param (
         [int] $days
     )
+    $script:flashes = 0
     for ($i = 0; $i -lt $days; $i++) {
         Start-FieldIncrease
         for ($h = 0; $h -lt $height; $h++) {
@@ -113,17 +82,15 @@ function Step-Field {
             }
         }
     }
-    $script:totalflashes += $script:flashes
 }
 
 # part 1
 Step-Field 100
-#"After step $step there have been $totalflashes flashes"
+"After step $step there had been $totalflashes flashes"
 
 # part 2
 do {
-    $flashes = 0
     Step-Field 1
 } until ($flashes -eq $octopus.count)
 
-#"After step $step all octopi have flashed simultaneously"
+"During step $step all octopi flashed simultaneously"
