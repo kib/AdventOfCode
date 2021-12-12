@@ -1,58 +1,59 @@
-    $data = Get-Content -Path './inputs/d12.txt'
-    $target = @{}
-    # $paths = @{}
-    # $process = 0
-    $pc = 0
+    $data = Get-Content -Path './inputs/d12_demo1.txt'
+    $targets = @{}
+    $paths = @{}
+    $process = 0
+    $pathCount = 0
 
     foreach ($line in $data) {
         $a, $b = $line -split '-'
-        if (-not ($a -in $target.$b) -and ($a -ne 'start')) {
-            $target.$b += , $a
+        if (-not ($a -in $targets.$b) -and ($a -ne 'start')) {
+            $targets.$b += , $a
         }
-        if (-not ($b -in $target.$a) -and ($b -ne 'start')) {
-            $target.$a += , $b
+        if (-not ($b -in $targets.$a) -and ($b -ne 'start')) {
+            $targets.$a += , $b
         }
-        $target.Remove('end')
+        $targets.Remove('end')
     }
 
     function get-Paths {
         param (
-            [String[]] $p = @(),
-            [String[]] $u = @(),
-            [String] $u2 = '',
+            [String[]] $pathTaken = @(),
+            [String[]] $smallCaves = @(),
+            [String] $twiceCave = '',
             [int] $id
         )
-        # Write-Verbose "[$id] Branched from '$($p -join '-')' with [$($u -join ',')] and [$u2]"
-        $last = $p[-1]
-        $poss = [String[]]$target.$last
-        foreach ($t in $poss) {
-            # $script:process++
-            # Write-Verbose "[$id] '$($p -join '-')-<$t>' from [$($poss -join "|")] with [$($u -join ',')] and [$u2]"
-            if ($t -eq 'end') {
-                # $key = $($p + $t) -join ','
-                # $paths.$key = $($p + $t)
-                # Write-Verbose "[$id] FOUND $key"
-                $script:pc ++
+        Write-Verbose "[$id] Branched from '$($pathTaken -join '-')' with [$($smallCaves -join ',')] small visited ([$twiceCave] twice)"
+        $last = $pathTaken[-1]
+        $possibleNodes = [String[]]$targets.$last
+        foreach ($node in $possibleNodes) {
+            $script:process++
+            Write-Verbose "[$id] '$($pathTaken -join '-')-<$node>' from [$($possibleNodes -join "|")] with small [$($smallCaves -join ',')] used ([$twiceCave] twice)"
+            if ($node -eq 'end') {
+                $key = $($pathTaken + $node) -join ','
+                $paths.$key = $($pathTaken + $node)
+                Write-Verbose "[$id] FOUND $key"
+                $script:pathCount ++
                 continue
             }
-            $nu = $u
-            $nu2 = $u2
-            if ([int][char]$t[0] -gt 90) {
-                if ($t -in $nu) {
-                    if ('' -eq $nu2) {
-                        $nu2 = $t
+            # we do not want to change these inside the loop, but only when we recurse
+            $smallCaveCopy = $smallCaves
+            $twiceCaveCopy = $twiceCave
+            if ([int][char]$node[0] -gt 90) {
+                if ($node -in $smallCaves) {
+                    if ('' -eq $twiceCave) {
+                        $twiceCaveCopy = $node
                     } else {
                         continue
                     }
                 } else {
-                    $nu = $nu + $t
+                    $smallCaveCopy = $smallCaveCopy + $node
                 }
             }
-            get-Paths $($p + $t) $nu $nu2 $($id+1)
+            get-Paths -pathTaken $($pathTaken + $node) -smallCaves $smallCaveCopy -twiceCave $twiceCaveCopy -id $($id+1)
         }
     }
     get-Paths 'start'
 
-    # $paths.Keys | Sort-Object
-    "The answer to part 2 is: {0}" -f $pc
-    # "This took $process steps"
+    $paths.Keys | Sort-Object
+    "The answer to part 2 is: {0}" -f $pathCount
+    "This took $process steps"
