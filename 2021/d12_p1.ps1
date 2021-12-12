@@ -19,7 +19,6 @@ function get-Paths {
     param (
         [String[]] $p = @(),
         [String[]] $u = @(),
-        [String] $u2 = '',
         [int] $id
     )
     # Write-Verbose "[$id] Branched from '$($p -join '-')' with [$($u -join ',')] and [$u2]"
@@ -36,23 +35,19 @@ function get-Paths {
             continue
         }
         $nu = $u
-        $nu2 = $u2
         if ([int][char]$t[0] -gt 90) {
             if ($t -in $nu) {
-                if ('' -eq $nu2) {
-                    $nu2 = $t
-                } else {
-                    continue
-                }
-            } else {
+                continue
+            }
+            else {
                 $nu = $nu + $t
             }
         }
-        get-Paths $($p + $t) $nu $nu2 $($id+1)
+        get-Paths $($p + $t) $nu $($id + 1)
     }
 }
 get-Paths 'start'
 
 # $paths.Keys | Sort-Object
-"The answer to part 2 is: {0}" -f $pc
+"The answer to part 1 is: {0}" -f $pc
 # "This took $process steps"
