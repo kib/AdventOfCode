@@ -1,4 +1,4 @@
-#    -ABCDEFG         Column totals addition per digit
+#    -ABCDEFG         Column value additions per digit
 # 0 |01110111| 6    | 42
 # 1 |00010010| 2 *  | 17
 # 2 |01011101| 5    | 34
@@ -27,9 +27,21 @@ foreach ($line in $outputlines) {
 }
 "The answer to part 1 is: $part1"
 
+# part 2
 $linedecode = @{}
 $index = "abcdefg"
-$magic = @{42 = '0'; 17 = '1'; 34 = '2'; 39 = '3'; 30 = '4'; 37 = '5'; 41 = '6'; 25 = '7'; 49 = '8'; 45 = '9'}
+$magic = @{
+42 = '0'
+17 = '1'
+34 = '2'
+39 = '3'
+30 = '4'
+37 = '5'
+41 = '6'
+25 = '7'
+49 = '8'
+45 = '9'
+}
 
 for ($i = 0; $i -lt $lines.Count; $i++) {
     $linedecode.$i = (($digitlines[$i].split() -join '').tochararray() | Group-Object | ForEach-Object { $_.Count }) -join ','
