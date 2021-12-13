@@ -1,4 +1,4 @@
-    $codes = Get-Content -Path '.\inputs\day10.txt'
+    $codes = Get-Content -Path '.\inputs\d10.txt'
     [Collections.Generic.Stack[String]] $stack = @()
 
     $openbrackets = '[([{<]'
