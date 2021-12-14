@@ -1,5 +1,5 @@
 #Requires -PSEdition Core
-$ventlines = Get-Content -Path 'inputs/day5.txt'
+$ventlines = Get-Content -Path 'inputs/d05.txt'
 
 function get-VentPoints {
     param (
@@ -10,7 +10,8 @@ function get-VentPoints {
         [int]$ax, [int]$ay, [int]$bx, [int]$by = $line -split ' -> ' -join ',' -split ','
         if ((-not $diags) -and $ax -ne $bx -and $ay -ne $by) {
             continue
-        } elseif ($diags -and ($ax -eq $bx -or $ay -eq $by)) {
+        }
+        if ($diags -and ($ax -eq $bx -or $ay -eq $by)) {
             continue
         }
         "$ax,$ay"
@@ -24,7 +25,7 @@ function get-VentPoints {
 }
 
 $points1 = Get-VentPoints $ventlines
-$points2 = $part1points + (Get-VentPoints $ventlines -Diags)
+$points2 = $points1 + (Get-VentPoints $ventlines -Diags)
 $part1 = ($points1 | Group-Object | Where-Object { $_.Count -gt 1 } | Measure-Object).Count
 $part2 = ($points2 | Group-Object | Where-Object { $_.Count -gt 1 } | Measure-Object).Count
 "The answer to part 1 is: $part1"
