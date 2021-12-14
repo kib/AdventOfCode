@@ -23,9 +23,9 @@
         )
         $paper | foreach-object {
             if ($_.$axis -gt $fold) {
-                # point's distance from the fold => $_.axis - $fold
-                # we want to go from fold the other way => $fold - ($_.axis - fold)
-                # can be rewritten to => 2*$fold - $_.axis
+                # point's distance from the fold => $_.$axis - $fold
+                # we want to go from that fold the same distance the other way => $fold - ($_.$axis - $fold)
+                # can be rewritten to => 2*$fold - $_.$axis
                 $_.$axis = 2*$fold - $_.$axis
                 $_.id = "$($_.x),$($_.y)"
                 $_
@@ -34,7 +34,6 @@
                 $_
             }
         }
-        return $folded
     }
 
     function Out-Paper {
@@ -53,11 +52,13 @@
     }
 
     # part 1
-    $paper = new-Fold $paper $folds[0][0] $folds[0][1]
+    # make the first fold
+    $paper = new-fold $paper $folds[0][0] $folds[0][1]
     $part1 = ($paper.id | Sort-Object -Unique).Count
     "The answer to part 1 is: $part1"
 
     # part 2
+    # make the rest of the folds
     $folds[1..$folds.Count] | foreach-object {
         $paper = new-fold $paper $_[0] $_[1]
     }
