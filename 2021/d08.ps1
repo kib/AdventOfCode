@@ -44,12 +44,12 @@ $magic = @{
 }
 
 for ($i = 0; $i -lt $lines.Count; $i++) {
-    $linedecode.$i = (($digitlines[$i].split() -join '').tochararray() | Group-Object | ForEach-Object { $_.Count }) -join ','
+    $linedecode.$i = (($digitlines[$i].split() -join '').tochararray() | Group-Object | ForEach-Object { $_.Count })
 }
 
 for ($i = 0; $i -lt $lines.Count; $i++) {
     $words = $outputlines[$i] -split ' '
-    $decoder = $linedecode.$i -split ','
+    $decoder = $linedecode.$i
     $number = ''
     foreach ($word in $words) {
         $sum = 0
