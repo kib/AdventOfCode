@@ -1,4 +1,4 @@
-$data = Get-Content -Path './inputs/d12_demo3.txt'
+$data = Get-Content -Path './inputs/d12.txt'
 $target = @{}
 # $paths = @{}
 # $process = 0

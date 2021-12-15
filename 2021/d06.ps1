@@ -1,4 +1,4 @@
-    [int[]] $data = (Get-Content -Path './inputs/day6.txt') -split ','
+    [int[]] $data = (Get-Content -Path './inputs/d06.txt') -split ','
     $fish = @{0 = 0; 1 = 0; 2 = 0; 3 = 0; 4 = 0; 5 = 0; 6 = 0; 7 = 0; 8 = 0 }
     $sum = $sum2 = 0
 
